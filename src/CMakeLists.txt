@@ -4,8 +4,7 @@ add_definitions(-std=c++11)
 
 set(CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
-
-project(playback)
+project(lidar_obstacle_detection)
 
 find_package(PCL 1.2 REQUIRED)
 
@@ -21,4 +20,8 @@ add_subdirectory(${APPS_DIR}/quiz/ransac ${APPS_DIR}/quiz/ransac/build)
 
 add_executable (environment environment.cpp render/render.cpp processPointClouds.cpp)
 target_link_libraries (environment ${PCL_LIBRARIES})
+add_custom_command(TARGET environment POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${PROJECT_SOURCE_DIR}/libs"
+        $<TARGET_FILE_DIR:environment>)
 

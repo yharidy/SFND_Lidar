@@ -9,7 +9,7 @@ project(quizRansac)
 
 file(GLOB src *.cpp *.h)
 
-find_package(PCL 1.2 REQUIRED)
+#find_package(PCL 1.2 REQUIRED)
 
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
@@ -21,6 +21,11 @@ target_link_libraries (${PROJECT_NAME} ${PCL_LIBRARIES})
 
 #add_executable (quizRansac ransac2d.cpp ../../render/render.cpp)
 #target_link_libraries (quizRansac ${PCL_LIBRARIES})
+add_custom_command(TARGET quizRansac POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${PROJECT_SOURCE_DIR}/libs"
+        $<TARGET_FILE_DIR:quizRansac>)
+
 
 
 

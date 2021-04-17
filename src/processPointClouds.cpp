@@ -2,7 +2,6 @@
 
 #include "processPointClouds.h"
 #include "kdtree.h"
-//#include <pcl/filters/crop_box.h>
 
 
 //constructor:
@@ -167,7 +166,6 @@ void clusterHelper(const std::vector<PointT, Eigen::aligned_allocator<PointT> > 
 {
 	processed[i] = true;
 	cluster.push_back(i);
-	//PointT point = points[i];
 	std::vector<int> nextPts = tree->search(points[i], distanceTol);
 
 	for (int id : nextPts)
@@ -177,7 +175,7 @@ void clusterHelper(const std::vector<PointT, Eigen::aligned_allocator<PointT> > 
 	}
 }
 template<typename PointT>
-std::vector<std::vector<int>> euclideanCluster(typename std::vector<PointT, Eigen::aligned_allocator<PointT> > &points, typename KdTree<PointT>* tree, float distanceTol)
+std::vector<std::vector<int>> euclideanCluster(typename std::vector<PointT, Eigen::aligned_allocator<PointT> > &points, KdTree<PointT>* tree, float distanceTol)
 {
 
 	// TODO: Fill out this function to return list of indices for each cluster
@@ -211,7 +209,7 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
 
     std::vector<typename pcl::PointCloud<PointT>::Ptr> clusters;
 	
-	typename KdTree<PointT>* tree(new KdTree<PointT>);
+	KdTree<PointT>* tree(new KdTree<PointT>);
 
 	for (int i = 0; i < cloud->points.size(); i++)
 	{	
@@ -241,7 +239,7 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
 	auto endTime = std::chrono::steady_clock::now();
 	auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
 	std::cout << "clustering took " << elapsedTime.count() << " milliseconds and found " << clusters.size() << " clusters" << std::endl;
-
+	delete tree;
     return clusters;
 
 }

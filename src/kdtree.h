@@ -5,34 +5,34 @@
 
 
 // Structure to represent node of kd tree
-template<typename PointT>
+template<typename PointT1>
 struct Node
 {
-	PointT point;
+	PointT1 point;
 	int id;
 	Node* left;
 	Node* right;
 
-	Node(PointT arr, int setId)
+	Node(PointT1 arr, int setId)
 	:	point(arr), id(setId), left(NULL), right(NULL)
 	{}
 };
 
-template<typename PointT>
+template<typename PointT2>
 struct KdTree
 {
-	typename Node<PointT>* root;
+	Node<PointT2>* root;
 
 	KdTree()
 	: root(NULL)
 	{}
 
-	template<typename PointT>
-	void insertHelper(typename Node<PointT>** node, int depth, PointT data, int id)
+	template<typename PointT3>
+	void insertHelper( Node<PointT3>** node, int depth, PointT3 data, int id)
 	{
 		if (*node == NULL)
 		{
-			*node = new Node<PointT>(data, id);
+			*node = new Node<PointT3>(data, id);
 		}
 		else
 		{
@@ -64,16 +64,16 @@ struct KdTree
 		}
 
 	}
-	template<typename PointT>
-	void insert(PointT point, int id)
+	template<typename PointT4>
+	void insert(PointT4 point, int id)
 	{
 		// TODO: Fill in this function to insert a new point into the tree
 		// the function should create a new node and place correctly with in the root 
 		insertHelper(&root, 0, point, id);
 
 	}
-	template<typename PointT>
-	void searchHelper(Node<PointT>* node, int depth, PointT target, float distanceTol, std::vector<int>& ids)
+	template<typename PointT5>
+	void searchHelper(Node<PointT5>* node, int depth, PointT5 target, float distanceTol, std::vector<int>& ids)
 	{
 		if (node != NULL)
 		{		
@@ -112,8 +112,8 @@ struct KdTree
 		}
 	}
 	// return a list of point ids in the tree that are within distance of target
-	template<typename PointT>
-	std::vector<int> search(PointT target, float distanceTol)
+	template<typename PointT6>
+	std::vector<int> search(PointT6 target, float distanceTol)
 	{
 		std::vector<int> ids;
 		searchHelper(root, 0, target, distanceTol, ids);

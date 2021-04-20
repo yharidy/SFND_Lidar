@@ -47,7 +47,7 @@ struct KdTree
 				value1 = data.y;
 				value2 = (*node)->point.y;
 				break;  
-			case 3:
+			case 2:
 				value1 = data.z;
 				value2 = (*node)->point.z;
 				break;
@@ -96,7 +96,7 @@ struct KdTree
 					value1 = target.y;
 					value2 = node->point.y;
 					break;
-				case 3:
+				case 2:
 					value1 = target.z;
 					value2 = node->point.z;
 					break;

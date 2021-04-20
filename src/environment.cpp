@@ -80,12 +80,12 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
 	// ----------------------------------------------------
 	// Experiment with the ? values and find what works best
 	pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud(new pcl::PointCloud<pcl::PointXYZI>);
-	filterCloud = pointProcessorI->FilterCloud(inputCloud, 0.2, Eigen::Vector4f(-40, -6, -3, 1), Eigen::Vector4f(40, 7, 3, 1));
-	std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = pointProcessorI->SegmentPlane(filterCloud, 50, 0.2);
+	filterCloud = pointProcessorI->FilterCloud(inputCloud, 0.4, Eigen::Vector4f(-40, -6, -3, 1), Eigen::Vector4f(40, 7, 3, 1));
+	std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = pointProcessorI->SegmentPlane(filterCloud, 100, 0.25);
 	renderPointCloud(viewer, segmentCloud.first, "ObstacleCloud", Color(1, 0, 0));
 	renderPointCloud(viewer, segmentCloud.second, "PlaneCloud", Color(0, 1, 0));
 	
-	std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentCloud.first, 0.7, 5, 700);
+	std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentCloud.first, 0.6, 5, 500);
 	int clusterId = 0;
 	std::vector<Color> colors = { Color(1,0,0), Color(1,1,0), Color(0,0,1) };
 	
@@ -131,7 +131,7 @@ int main (int argc, char** argv)
     CameraAngle setAngle = FPS;
     initCamera(setAngle, viewer);
 	ProcessPointClouds<pcl::PointXYZI>* pointProcessorI = new ProcessPointClouds<pcl::PointXYZI>();
-	std::vector<boost::filesystem::path> stream = pointProcessorI->streamPcd("../src/sensors/data/pcd/data_1");
+	std::vector<boost::filesystem::path> stream = pointProcessorI->streamPcd("../../src/sensors/data/pcd/data_1");
 	auto streamIterator = stream.begin();
 	
 	pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloudI;
@@ -154,5 +154,5 @@ int main (int argc, char** argv)
 		viewer->spinOnce();
 		
 	}
-
+	delete pointProcessorI;
 }
